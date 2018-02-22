@@ -5,12 +5,12 @@ public class toiminnot {
 
     Connection con;
 
-    public static void lataaAjuri() throws
+    public void lataaAjuri() throws
             ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
     }
 
-    public void yhteys() throws ClassNotFoundException {
+    public void yhteys() throws ClassNotFoundException { //implements autocloseable
         lataaAjuri();
 
         try {
@@ -50,7 +50,7 @@ public class toiminnot {
 
     }
 
-    public static List<Kysymykset> kysymyksia(Connection con) throws SQLException {
+    public List<Kysymykset> kysymyksia(Connection con) throws SQLException {
         ArrayList<Kysymykset> kysymykset = new ArrayList<>();
         //String sql = "select kysymys,vastaus from kysymykset join tf_vastaus on kysymykset.vast_id=tf_vastaus.v_id";
         String sql = "select kysymys,vastaus from kysymykset join tf_vastaus on kysymykset.vast_id=tf_vastaus.v_id";
@@ -97,7 +97,14 @@ public class toiminnot {
 
 
             }
-            System.out.println("Peli päättyi. Sait pisteitä: " + pistelaskuri);
+            System.out.println("Tentti päättyi. Sait pisteitä: " + pistelaskuri);
+            System.out.println("Jäikö jotain hampaankoloon? Tee tentti uudestaan vastaamalla K.");
+            String vastausKaks = lukija.nextLine().toUpperCase();
+            if(vastausKaks.equals("K")) {
+                uudestaan();
+            } else {
+                System.out.println("Tsemppiä opintoihin!");
+            }
 
 
         } catch (SQLException e) {
@@ -106,7 +113,14 @@ public class toiminnot {
             e.printStackTrace();
 
         }
+
+
     }
+
+    public void uudestaan() {
+        kaynnistaKysely();
+    }
+
 
 }
 
