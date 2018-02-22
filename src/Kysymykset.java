@@ -10,6 +10,22 @@ public class Kysymykset {
     private int v_id;
     private String vastaus;
 
+    public int getV_id() {
+        return v_id;
+    }
+
+    public void setV_id(int v_id) {
+        this.v_id = v_id;
+    }
+
+    public String getVastaus() {
+        return vastaus;
+    }
+
+    public void setVastaus(String vastaus) {
+        this.vastaus = vastaus;
+    }
+
     public Kysymykset(int id, String kysymys, int vast_id) {
         this.id = id;
         this.kysymys = kysymys;
