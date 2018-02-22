@@ -8,11 +8,10 @@ public class Kysymykset {
     private String kysymys;
     private int vast_id;
 
-    public Kysymykset(int id, String kysymy, int vast_id) {
+    public Kysymykset(int id, String kysymys, int vast_id) {
         this.id = id;
         this.kysymys = kysymys;
         this.vast_id = vast_id;
-
     }
 
     public void lisaaKysymysTauluun(Connection con) throws SQLException {
