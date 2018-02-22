@@ -15,12 +15,12 @@ public class sadunMaini {
         lataaAjuri();
         try (Connection con =
                      (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/tentti?useSSL=false",
-                             "root", "salasana")) {
+                             "root", "leenaschaumann")) {
             System.out.println("Connection created");
 
 
 
-        Kysymykset eka = new Kysymykset(1,"Tietokanta (database/db) - palvelimella voi sijaita useita tietokantoja",1);
+       /* Kysymykset eka = new Kysymykset(1,"Tietokanta (database/db) - palvelimella voi sijaita useita tietokantoja",1);
         Kysymykset toka = new Kysymykset(2,"MySql on avoimen lähdekoodin tietokanta", 1 );
         Kysymykset kolmas = new Kysymykset(3, "Sun omistaa MySql:n", 2);
         Kysymykset neljas = new Kysymykset(4, "mysqldump-toiminto tarkistaa taulujen eheyden", 2);
@@ -40,9 +40,9 @@ public class sadunMaini {
         seitsemas.lisaaKysymysTauluun(con);
         kasi.lisaaKysymysTauluun(con);
         ysi.lisaaKysymysTauluun(con);
-        kymppi.lisaaKysymysTauluun(con);
+        kymppi.lisaaKysymysTauluun(con);*/
 
-
+            System.out.println(kysymyksia(con));
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -53,15 +53,18 @@ public class sadunMaini {
 
     public static List<Kysymykset> kysymyksia(Connection con) throws SQLException {
         ArrayList<Kysymykset> kysymykset = new ArrayList<>();
-        String sql = "select * from kysymykset";
+        String sql = "select kysymys,vastaus from kysymykset join tf_vastaus on kysymykset.vast_id=tf_vastaus.v_id";
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-        return kysymykset;
 
-        //while (rs.next()) {
-          //  kysymykset.add(new Kysymykset(rs));
+
+        while (rs.next()) {
+            kysymykset.add(new Kysymykset(rs.getString("kysymys"),rs.getString("vastaus")));
         }
+        return kysymykset;
     }
+
+}
 
 
 

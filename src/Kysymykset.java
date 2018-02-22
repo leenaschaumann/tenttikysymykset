@@ -7,15 +7,28 @@ public class Kysymykset {
     private int id;
     private String kysymys;
     private int vast_id;
+    private int v_id;
+    private String vastaus;
 
     public Kysymykset(int id, String kysymys, int vast_id) {
         this.id = id;
         this.kysymys = kysymys;
         this.vast_id = vast_id;
     }
+    public Kysymykset(int id, String kysymys, int vast_id, int v_id) {
+        this.id = id;
+        this.kysymys = kysymys;
+        this.vast_id = vast_id;
+        this.v_id = v_id;
+    }
+
+    public Kysymykset(String kysymys, String vastaus) {
+        this.kysymys = kysymys;
+        this.vastaus = vastaus;
+    }
 
     public void lisaaKysymysTauluun(Connection con) throws SQLException {
-        String sql = "INSERT INTO Kysymykset(id, kysymys, vastaus_id) VALUES (?,?,?)";
+        String sql = "INSERT INTO Kysymykset(id, kysymys, vast_id) VALUES (?,?,?)";
         PreparedStatement kys = con.prepareStatement(sql);
         kys.setInt(1, this.id);
         kys.setString(2, this.kysymys);
