@@ -1,9 +1,9 @@
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.sql.*;
+import java.util.*;
 
-public class sadunMaini {
+public class toiminnot {
+
+    Connection con;
 
     public static void lataaAjuri() throws
             ClassNotFoundException {
@@ -11,13 +11,13 @@ public class sadunMaini {
         System.out.println("Ajuri ladattu");
     }
 
-    public static void main(String[] args) throws ClassNotFoundException {
+    public void yhteys() throws ClassNotFoundException {
         lataaAjuri();
-        try (Connection con =
-                     (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/tentti?useSSL=false",
-                             "root", "leenaschaumann")) {
-            System.out.println("Connection created");
 
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tentti?useSSL=false",
+                             "root", "leenaschaumann");
+            System.out.println("Connection created");
 
 
        /* Kysymykset eka = new Kysymykset(1,"Tietokanta (database/db) - palvelimella voi sijaita useita tietokantoja",1);
@@ -42,7 +42,7 @@ public class sadunMaini {
         ysi.lisaaKysymysTauluun(con);
         kymppi.lisaaKysymysTauluun(con);*/
 
-            System.out.println(kysymyksia(con));
+           // System.out.println(kysymyksia(con));
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -62,6 +62,41 @@ public class sadunMaini {
             kysymykset.add(new Kysymykset(rs.getString("kysymys"),rs.getString("vastaus")));
         }
         return kysymykset;
+    }
+
+    public void kaynnistaKysely()  {
+        try {
+            yhteys();
+            Scanner lukija = new Scanner(System.in);
+            System.out.println("Tervetuloa tenttiin!");
+            List<Kysymykset> kyssarit = new ArrayList<>(kysymyksia(con));
+            Collections.shuffle(kyssarit);
+
+            System.out.println("Tentissä kohtaat väitteitä viikon 5 aihealueista. \n" +
+                    "Vastaa väitteisiin numeroin: 1 = totta tai 2 = valhe!");
+
+
+                for (int i = 0; i < kyssarit.size(); i++) {
+                    try {
+                        System.out.println("Kysymys " + (i + 1) + ":");
+                        System.out.println(kyssarit.get(i));
+                        int vastaus = Integer.parseInt(lukija.nextLine());
+                        if (vastaus != 1 && vastaus != 2) {
+                            System.out.println("Tarkista ohjeet! Vastaa joko 1 tai 2.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Nyt kyllä meni persiilleen.");
+                        continue;
+                    }
+                }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        }
     }
 
 }

@@ -62,10 +62,6 @@ public class Kysymykset {
 
     @Override
     public String toString() {
-        return "Kysymykset{" +
-                "id=" + id +
-                ", kysymys='" + kysymys + '\'' +
-                ", vast_id=" + vast_id +
-                '}';
+        return  kysymys;
     }
 }
